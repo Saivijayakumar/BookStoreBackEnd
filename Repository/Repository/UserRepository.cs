@@ -10,23 +10,15 @@ namespace Repository.Repository
 {
     public class UserRepository : IUserRepository
     {
-        private IConfiguration Configuration { get; }
-        public static string ConnectionString { get; private set; }
-
-        public UserRepository(IConfiguration configuration)
-        {
-
-            Configuration = configuration;
-            ConnectionString = Configuration["ConnectionStrings:DataSource"];
+        public static string ConnectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=BookStore;Integrated Security=True";
 
 
-        }
 
+        SqlConnection connection = new SqlConnection(ConnectionString);
         public RegisterModel Register(RegisterModel userData)
         {
             try
             {
-                
                 if (userData != null)
                 {
                     RegisterModel registerModel = new RegisterModel();
@@ -37,35 +29,34 @@ namespace Repository.Repository
                             connection.Open();
                             SqlCommand cmd = new SqlCommand("Registration", connection);
                             cmd.CommandType = CommandType.StoredProcedure;
-
-                            cmd.Parameters.AddWithValue("@UserName", userData.UserName);
+                            cmd.Parameters.AddWithValue("@FullName", userData.FullName);
                             cmd.Parameters.AddWithValue("@EmailId", userData.EmailId);
                             cmd.Parameters.AddWithValue("@Password", EncryptPassWord(userData.Password));
+                            cmd.Parameters.AddWithValue("@MobileNumber", userData.MobileNumber);
 
-                            SqlDataReader sqlDataReader = cmd.ExecuteReader();
-                            if (sqlDataReader.HasRows)
+
+
+                            int result = cmd.ExecuteNonQuery();
+                            if (result != 0)
                             {
-                                if (sqlDataReader.Read())
-                                {
-                                    registerModel.UserName = sqlDataReader["UserName"].ToString();
-                                    registerModel.EmailId = sqlDataReader["EmailId"].ToString();
-                                }
-                                sqlDataReader.Close();
+                                return userData;
                             }
-                            connection.Close();
-                            return registerModel;
-
-                        }                      
-
-                    }                
+                            return null;
+                        }
+                    }
                 }
                 return null;
             }
+
+
+
             catch (ArgumentNullException ex)
             {
                 throw new Exception(ex.Message);
             }
         }
+
+
 
         public string EncryptPassWord(string password)
         {

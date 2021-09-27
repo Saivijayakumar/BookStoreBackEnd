@@ -7,9 +7,11 @@ namespace Models
 {
     public class RegisterModel
     {
-         
-        public string UserName { get; set; }
+
+        public int UserId { get; set; }
+        public string FullName { get; set; }
         public string EmailId { get; set; }
         public string Password { get; set; }
+        public long  MobileNumber { get; set; }
     }
 }
