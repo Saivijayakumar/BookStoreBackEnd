@@ -27,5 +27,18 @@ namespace Manager.Manager
                 throw new Exception(ex.Message);
             }
         }
+
+
+        public LoginModel Login(LoginModel loginData)
+        {
+            try
+            {
+                return this.repository.Login(loginData);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

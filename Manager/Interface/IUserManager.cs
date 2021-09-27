@@ -8,5 +8,7 @@ namespace Manager.Interface
     public interface IUserManager
     {
         RegisterModel Register(RegisterModel userData);
+
+        LoginModel Login(LoginModel loginData);
     }
 }
