@@ -8,5 +8,6 @@ namespace Repository.Interface
     public interface IBookRepository
     {
         BookModel AddBook(BookModel bookData);
+        BookModel UpdateBook(BookModel bookData);
     }
 }

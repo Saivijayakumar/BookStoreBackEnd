@@ -27,6 +27,18 @@ namespace Manager.Manager
             }
         }
 
+        public BookModel UpdateBook(BookModel bookData)
+        {
+            try
+            {
+                return this.repository.UpdateBook(bookData);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
 
     }
 }

@@ -8,5 +8,6 @@ namespace Manager.Interface
     public interface IBookManager
     {
         BookModel AddBook(BookModel bookData);
+        BookModel UpdateBook(BookModel bookData);
     }
 }
