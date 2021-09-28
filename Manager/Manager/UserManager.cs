@@ -40,5 +40,18 @@ namespace Manager.Manager
                 throw new Exception(ex.Message);
             }
         }
+
+
+        public OTPModel ForgotPassword(string email)
+        {
+            try
+            {
+                return this.repository.ForgotPassword(email);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

@@ -62,5 +62,27 @@ namespace BookStoreApp.Controllers
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
+
+        [HttpPost]
+        [Route("api/forgotPassword")]
+        public IActionResult ForgotPassword(string email)
+        {
+            try
+            {
+                var result = this.manager.ForgotPassword(email);
+                if (result != null)
+                {
+                    return this.Ok(new ResponseModel<OTPModel>() { Status = true, Message = "Please check your email",Data=result});
+                }
+                else
+                {
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "Email not Sent" });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+            }
+        }
     }
 }

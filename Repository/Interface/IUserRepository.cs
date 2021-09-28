@@ -9,5 +9,7 @@ namespace Repository.Repository
     {
         public RegisterModel Register(RegisterModel userData);
         RegisterModel Login(LoginModel loginData);
+
+        OTPModel ForgotPassword(string email);
     }
 }
