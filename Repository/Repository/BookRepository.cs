@@ -49,7 +49,7 @@ namespace Repository.Repository
                 throw new Exception(ex.Message);
             }
             finally
-            {
+                {
                 connection.Close();
             }
         }
