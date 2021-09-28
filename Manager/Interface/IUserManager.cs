@@ -11,5 +11,6 @@ namespace Manager.Interface
 
         RegisterModel Login(LoginModel loginData);
         OTPModel ForgotPassword(string email);
+        bool ResetPassword(ResetPasswordModel resetData);
     }
 }

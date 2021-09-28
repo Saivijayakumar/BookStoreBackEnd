@@ -226,5 +226,37 @@ namespace Repository.Repository
             smtp.Send(mailMessage);
             return true;
         }
+        public bool ResetPassword(ResetPasswordModel resetData)
+        {
+            try
+            {
+                if (resetData != null)
+                {
+                    string newPassword = EncryptPassWord(resetData.Password);
+                    using (SqlConnection connection = new SqlConnection(ConnectionString))
+                    {
+                        using (connection)
+                        {
+                            connection.Open();
+                            SqlCommand cmd = new SqlCommand("RestPassword", connection);
+                            cmd.CommandType = CommandType.StoredProcedure;
+                            cmd.Parameters.AddWithValue("@UserId", resetData.UserId);
+                            cmd.Parameters.AddWithValue("@Password", newPassword);
+                            int result = cmd.ExecuteNonQuery();
+                            if (result != 0)
+                            {
+                                return true;
+                            }
+                            return false;
+                        }
+                    }
+                }
+                return false;
+            }
+            catch (ArgumentNullException ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

@@ -84,5 +84,26 @@ namespace BookStoreApp.Controllers
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
+        [HttpPut]
+        [Route("api/ResetPassword")]
+        public IActionResult ResetPassword([FromBody] ResetPasswordModel resetData)
+        {
+            try
+            {
+                var result = this.manager.ResetPassword(resetData);
+                if (result)
+                {
+                    return this.Ok(new ResponseModel<RegisterModel>() { Status = true, Message = "Reset Successfull!" });
+                }
+                else
+                {
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "Reset Unsuccessfull!" });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+            }
+        }
     }
 }

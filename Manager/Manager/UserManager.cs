@@ -53,5 +53,16 @@ namespace Manager.Manager
                 throw new Exception(ex.Message);
             }
         }
+        public bool ResetPassword(ResetPasswordModel resetData)
+        {
+            try
+            {
+                return this.repository.ResetPassword(resetData);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }
