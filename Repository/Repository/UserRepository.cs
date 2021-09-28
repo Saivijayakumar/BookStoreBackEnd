@@ -76,7 +76,7 @@ namespace Repository.Repository
                         registerModel.UserId = Convert.ToInt32(sqlDataReader["UserId"]);
                         registerModel.FullName = sqlDataReader["FullName"].ToString();
                         registerModel.EmailId = sqlDataReader["EmailId"].ToString();
-                        registerModel.MobileNumber = Convert.ToInt64(sqlDataReader["MobileNumber"]);
+                        registerModel.MobileNumber = sqlDataReader["MobileNumber"].ToString();
                         registerModel.Password = sqlDataReader["Password"].ToString();
                     }
                     if (sqlDataReader.HasRows==false)
