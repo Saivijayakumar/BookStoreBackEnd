@@ -51,6 +51,10 @@ namespace Repository.Repository
             {
                 throw new Exception(ex.Message);
             }
+            finally
+            {
+                connection.Close();
+            }
         }
         public string EncryptPassWord(string password)
         {
@@ -98,6 +102,10 @@ namespace Repository.Repository
             catch (ArgumentNullException ex)
             {
                 throw new Exception(ex.Message);
+            }
+            finally
+            {
+                connection.Close();
             }
         }
 
@@ -209,7 +217,7 @@ namespace Repository.Repository
             SmtpClient smtp = new SmtpClient("smtp.gmail.com");
             mailMessage.From = new MailAddress("radhika.shankar1220@gmail.com");
             mailMessage.To.Add(new MailAddress(email));
-            mailMessage.Subject = "Link to reset your password for BookStore";
+            mailMessage.Subject = "Link to reset your password for BookStore App";
             mailMessage.Body = message;
             smtp.EnableSsl = true;
             mailMessage.IsBodyHtml = true;
