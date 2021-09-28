@@ -9,5 +9,6 @@ namespace Repository.Interface
     {
         BookModel AddBook(BookModel bookData);
         BookModel UpdateBook(BookModel bookData);
+        List<BookModel> GetBooks();
     }
 }

@@ -61,5 +61,26 @@ namespace BookStoreApps.Controllers
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
+        [HttpGet]
+        [Route("api/GetBooks")]
+        public IActionResult GetBooks()
+        {
+            try
+            {
+                var result = this.manager.GetBooks();
+                if (result != null)
+                {
+                    return this.Ok(new ResponseModel<List<BookModel>>() { Status = true, Message = "Books Retrived Successfull", Data = result });
+                }
+                else
+                {
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "Books Retrived Unsuccessfull" });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+            }
+        }
     }
 }

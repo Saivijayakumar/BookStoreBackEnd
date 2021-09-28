@@ -38,7 +38,17 @@ namespace Manager.Manager
                 throw new Exception(ex.Message);
             }
         }
-
+        public List<BookModel> GetBooks()
+        {
+            try
+            {
+                return this.repository.GetBooks();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
 
     }
 }
