@@ -17,3 +17,15 @@ create Table [UserAddress]
   State varchar(50) NOT NULL,
   FOREIGN KEY (UserId) references  [User](UserId)
 );
+
+
+  Create Table Books(
+  BookId INT PRIMARY KEY IDENTITY(1,1),
+  Title varchar(255) NOT NULL,
+  AuthorName varchar(255) NOT NULL,
+  Price int NOT NULL,
+  Rating int DEFAULT 0,
+  BookDetail varchar(max) NOT NULL,
+  BookImage varchar(max) NOT NULL,
+  BookQuantity int DEFAULT 0 
+  )
