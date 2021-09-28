@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using Repository.Interface;
 using Repository.Repository;
 using System;
 using System.Collections.Generic;
@@ -34,6 +35,8 @@ namespace BookStoreApps
             services.AddMvc();
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<IUserManager, UserManager>();
+            services.AddTransient<IBookManager, BookManager>();
+            services.AddTransient<IBookRepository, BookRepository>();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1.0", new OpenApiInfo { Title = "BookStoreApp", Version = "1.0" });

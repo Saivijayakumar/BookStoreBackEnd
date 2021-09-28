@@ -14,9 +14,6 @@ namespace Repository.Repository
     public class UserRepository : IUserRepository
     {
         public static string ConnectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=BookStore;Integrated Security=True";
-
-
-
         SqlConnection connection = new SqlConnection(ConnectionString);
         public RegisterModel Register(RegisterModel userData)
         {
