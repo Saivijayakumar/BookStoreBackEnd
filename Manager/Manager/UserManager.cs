@@ -77,5 +77,18 @@ namespace Manager.Manager
             }
 
         }
+
+        public List<UserAddress> GetAllUserAddress(int userId)
+        {
+            try
+            {
+                return this.repository.GetAllUserAddress(userId);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+
+        }
     }
 }

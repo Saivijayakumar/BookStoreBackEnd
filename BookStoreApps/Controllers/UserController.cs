@@ -127,5 +127,29 @@ namespace BookStoreApp.Controllers
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
+
+        [HttpGet]
+        [Route("api/Address")]
+        public IActionResult GetAllUserAddress(int userId)
+        {
+            try
+            {
+                var result = this.manager.GetAllUserAddress(userId);
+                if (result != null)
+                {
+                    return this.Ok(new ResponseModel<List<UserAddress>>() { Status = true, Message = "Address Added Successfull!", Data = result });
+                }
+                else
+                {
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "Adding Address Unsuccessfull!" });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+            }
+        }
+
+
     }
 }

@@ -290,5 +290,49 @@ namespace Repository.Repository
                 throw new Exception(ex.Message);
             }
         }
+
+        public List<UserAddress> GetAllUserAddress(int userId)
+        {
+            try
+            {
+                if (userId != 0)
+                {
+                    connection.Open();
+                    SqlCommand cmd = new SqlCommand("GetAllUserAddress", connection)
+                    {
+                        CommandType = CommandType.StoredProcedure
+                    };
+                    cmd.Parameters.AddWithValue("@UserId", userId);
+                    SqlDataReader sqlDataReader = cmd.ExecuteReader();
+
+                    List<UserAddress> userAddresseList = new List<UserAddress>();
+                    while (sqlDataReader.Read())
+                    {
+                        UserAddress userAddress = new UserAddress();
+                        userAddress.AddressId = Convert.ToInt32(sqlDataReader["AddressId"]);
+                        userAddress.UserId = Convert.ToInt32(sqlDataReader["UserId"]);
+                        userAddress.Address = sqlDataReader["Address"].ToString();
+                        userAddress.Type = sqlDataReader["Type"].ToString();
+                        userAddress.City = sqlDataReader["City"].ToString();
+                        userAddress.State = sqlDataReader["State"].ToString();
+                        userAddresseList.Add(userAddress);
+                    }
+                    if (sqlDataReader.HasRows == false)
+                    {
+                        throw new Exception("UserId does not Have Address");
+                    }
+                    return userAddresseList;
+                }
+                return null;
+            }
+            catch (ArgumentNullException ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
     }
 }
