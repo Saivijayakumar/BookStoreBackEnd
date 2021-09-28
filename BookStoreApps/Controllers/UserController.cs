@@ -137,11 +137,11 @@ namespace BookStoreApp.Controllers
                 var result = this.manager.GetAllUserAddress(userId);
                 if (result != null)
                 {
-                    return this.Ok(new ResponseModel<List<UserAddress>>() { Status = true, Message = "Address Added Successfull!", Data = result });
+                    return this.Ok(new ResponseModel<List<UserAddress>>() { Status = true, Message = "Address Retrived Successfull!", Data = result });
                 }
                 else
                 {
-                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "Adding Address Unsuccessfull!" });
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "Address Retrived Unsuccessfull!" });
                 }
             }
             catch (Exception ex)
