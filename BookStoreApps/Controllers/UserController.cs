@@ -105,5 +105,27 @@ namespace BookStoreApp.Controllers
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
+
+        [HttpPost]
+        [Route("api/Address")]
+        public IActionResult AddAddress([FromBody] UserAddress userAddress)
+        {
+            try
+            {
+                var result = this.manager.AddAddress(userAddress);
+                if (result != null)
+                {
+                    return this.Ok(new ResponseModel<UserAddress>() { Status = true, Message = "Address Added Successfull!", Data = result });
+                }
+                else
+                {
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "Adding Address Unsuccessfull!" });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+            }
+        }
     }
 }

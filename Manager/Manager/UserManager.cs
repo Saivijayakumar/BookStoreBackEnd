@@ -64,5 +64,18 @@ namespace Manager.Manager
                 throw new Exception(ex.Message);
             }
         }
+
+        public UserAddress AddAddress(UserAddress userAddress)
+        {
+            try
+            {
+                return this.repository.AddAddress(userAddress);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+
+        }
     }
 }

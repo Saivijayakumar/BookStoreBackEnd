@@ -258,5 +258,40 @@ namespace Repository.Repository
                 throw new Exception(ex.Message);
             }
         }
+
+        public UserAddress AddAddress(UserAddress userAddress)
+        {
+            try
+            {
+                if (userAddress != null)
+                {
+                    using (SqlConnection connection = new SqlConnection(ConnectionString))
+                    {
+                        using (connection)
+                        {
+                            connection.Open();
+                            SqlCommand cmd = new SqlCommand("AddAddress", connection);
+                            cmd.CommandType = CommandType.StoredProcedure;
+                            cmd.Parameters.AddWithValue("@UserId", userAddress.UserId);
+                            cmd.Parameters.AddWithValue("@Address", userAddress.Address);
+                            cmd.Parameters.AddWithValue("@Type", userAddress.Type);
+                            cmd.Parameters.AddWithValue("@City", userAddress.City);
+                            cmd.Parameters.AddWithValue("@State", userAddress.State);
+                            int result = cmd.ExecuteNonQuery();
+                            if (result != 0)
+                            {
+                                return userAddress;
+                            }
+                            return null;
+                        }
+                    }
+                }
+                return null;
+            }
+            catch (ArgumentNullException ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }
