@@ -50,5 +50,18 @@ namespace Manager.Manager
             }
         }
 
+        public List<BookModel> GetPriceSortBooks(bool PriceSort)
+        {
+            try
+            {
+                return this.repository.GetPriceSortBooks(PriceSort);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+
+        }
+
     }
 }

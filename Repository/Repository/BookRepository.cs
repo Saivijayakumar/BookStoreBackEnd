@@ -151,5 +151,48 @@ namespace Repository.Repository
                 connection.Close();
             }
         }
+
+
+        public List<BookModel> GetPriceSortBooks(bool PriceSort)
+        {
+            try
+            {
+                    connection.Open();
+                    SqlCommand cmd = new SqlCommand("GetPriceSortBooks", connection)
+                    {
+                        CommandType = CommandType.StoredProcedure
+                    };
+                    cmd.Parameters.AddWithValue("@PriceSort", PriceSort);
+                    SqlDataReader sqlDataReader = cmd.ExecuteReader();
+
+                    List<BookModel> bookList = new List<BookModel>();
+                    while (sqlDataReader.Read())
+                    {
+                        BookModel bookModel = new BookModel();
+                        bookModel.BookId = Convert.ToInt32(sqlDataReader["BookId"]);
+                        bookModel.Title = sqlDataReader["Title"].ToString();
+                        bookModel.AuthorName = sqlDataReader["AuthorName"].ToString();
+                        bookModel.Price = Convert.ToInt32(sqlDataReader["Price"]);
+                        bookModel.Rating = Convert.ToInt32(sqlDataReader["Rating"]);
+                        bookModel.BookDetail = sqlDataReader["BookDetail"].ToString();
+                        bookModel.BookImage = sqlDataReader["BookImage"].ToString();
+                        bookModel.BookQuantity = Convert.ToInt32(sqlDataReader["BookQuantity"]);
+                        bookList.Add(bookModel);
+                    }
+                    if (sqlDataReader.HasRows == false)
+                    {
+                        throw new Exception("Database does not Have Books");
+                    }
+                    return bookList;
+            }
+            catch (ArgumentNullException ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
     }
 }

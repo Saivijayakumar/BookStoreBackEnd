@@ -10,5 +10,6 @@ namespace Manager.Interface
         BookModel AddBook(BookModel bookData);
         BookModel UpdateBook(BookModel bookData);
         List<BookModel> GetBooks();
+        public List<BookModel> GetPriceSortBooks(bool PriceSort);
     }
 }
