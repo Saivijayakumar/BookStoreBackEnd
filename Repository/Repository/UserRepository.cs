@@ -33,9 +33,6 @@ namespace Repository.Repository
                             cmd.Parameters.AddWithValue("@EmailId", userData.EmailId);
                             cmd.Parameters.AddWithValue("@Password", EncryptPassWord(userData.Password));
                             cmd.Parameters.AddWithValue("@MobileNumber", userData.MobileNumber);
-
-
-
                             int result = cmd.ExecuteNonQuery();
                             if (result != 0)
                             {
@@ -47,24 +44,18 @@ namespace Repository.Repository
                 }
                 return null;
             }
-
-
-
             catch (ArgumentNullException ex)
             {
                 throw new Exception(ex.Message);
             }
         }
-
-
-
         public string EncryptPassWord(string password)
         {
             var passwordInBytes = Encoding.UTF8.GetBytes(password);
             string encodePassword = Convert.ToBase64String(passwordInBytes);
             return encodePassword;
         }
-        public LoginModel Login(LoginModel loginData)
+        public RegisterModel Login(LoginModel loginData)
         {
             try
             {
@@ -77,31 +68,27 @@ namespace Repository.Repository
                     };
                     cmd.Parameters.AddWithValue("@EmailId", loginData.EmailId);
                     cmd.Parameters.AddWithValue("@Password", EncryptPassWord(loginData.Password));
-                    var returnParameter = cmd.Parameters.Add("@result", SqlDbType.Int);
-                    returnParameter.Direction = ParameterDirection.ReturnValue;
                     SqlDataReader sqlDataReader = cmd.ExecuteReader();
 
                     RegisterModel registerModel = new RegisterModel();
-                    if (sqlDataReader.HasRows)
+                    if (sqlDataReader.Read())
                     {
-                        if (sqlDataReader.Read())
-                        {
-                            registerModel.UserId = Convert.ToInt32(sqlDataReader["UserId"]);
-                           registerModel.FullName = sqlDataReader["FullName"].ToString();
-                            registerModel.EmailId = sqlDataReader["EmailId"].ToString();
-                            registerModel.MobileNumber = Convert.ToInt64(sqlDataReader["MobileNumber"]);
-                        }
+                        registerModel.UserId = Convert.ToInt32(sqlDataReader["UserId"]);
+                        registerModel.FullName = sqlDataReader["FullName"].ToString();
+                        registerModel.EmailId = sqlDataReader["EmailId"].ToString();
+                        registerModel.MobileNumber = Convert.ToInt64(sqlDataReader["MobileNumber"]);
+                        registerModel.Password = sqlDataReader["Password"].ToString();
                     }
-                    var result = returnParameter.Value;
-                    if (result.Equals(2))
-                    {
-                        throw new Exception("Password does not match");
-                    }
-                    if (result.Equals(5))
+                    if (sqlDataReader.HasRows==false)
                     {
                         throw new Exception("EmailId does not exist");
                     }
-                    return loginData;
+                    else if (registerModel.Password!= EncryptPassWord(loginData.Password))
+                    {
+                        throw new Exception("Password does not match");
+                    }
+                    registerModel.Password = null;
+                    return registerModel;
                 }
                 return null;
             }
@@ -110,7 +97,5 @@ namespace Repository.Repository
                 throw new Exception(ex.Message);
             }
         }
-
-
     }
 }

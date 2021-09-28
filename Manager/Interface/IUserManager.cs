@@ -9,6 +9,6 @@ namespace Manager.Interface
     {
         RegisterModel Register(RegisterModel userData);
 
-        LoginModel Login(LoginModel loginData);
+        RegisterModel Login(LoginModel loginData);
     }
 }

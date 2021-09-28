@@ -8,6 +8,6 @@ namespace Repository.Repository
     public interface IUserRepository
     {
         public RegisterModel Register(RegisterModel userData);
-        LoginModel Login(LoginModel loginData);
+        RegisterModel Login(LoginModel loginData);
     }
 }

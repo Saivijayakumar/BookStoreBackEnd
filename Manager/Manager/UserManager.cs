@@ -29,7 +29,7 @@ namespace Manager.Manager
         }
 
 
-        public LoginModel Login(LoginModel loginData)
+        public RegisterModel Login(LoginModel loginData)
         {
             try
             {

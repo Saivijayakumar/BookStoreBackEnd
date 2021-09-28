@@ -50,7 +50,7 @@ namespace BookStoreApp.Controllers
                 var result = this.manager.Login(loginData);
                 if (result != null)
                 {
-                    return this.Ok(new ResponseModel<LoginModel>() { Status = true, Message = "Login Successfull!", Data = result });
+                    return this.Ok(new ResponseModel<RegisterModel>() { Status = true, Message = "Login Successfull!", Data = result });
                 }
                 else
                 {
