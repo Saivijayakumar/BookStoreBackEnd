@@ -40,4 +40,15 @@ CREATE TABLE Cart
    FOREIGN KEY (UserId) references [BookStore].[dbo].[User] (UserId),
   FOREIGN KEY (BookId) references  [BookStore].[dbo].[Books] (BookId)
 );
-
+CREATE TABLE MyOrders
+(
+  OrderId INT PRIMARY KEY IDENTITY(1,1),
+  UserId INT NOT NULL,
+  BookId INT NOT NULL,
+  AddressId INT NOT NULL,
+  OrderDate varchar(100) NOT NULL,
+  TotalCost INT NOT NULL,
+  FOREIGN KEY (UserId) references [BookStore].[dbo].[User] (UserId),
+  FOREIGN KEY (BookId) references  [BookStore].[dbo].[Books] (BookId),
+  FOREIGN KEY (AddressId) references  [BookStore].[dbo].[UserAddress](AddressId)
+);
