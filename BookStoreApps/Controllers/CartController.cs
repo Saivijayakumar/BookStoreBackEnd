@@ -38,5 +38,27 @@ namespace BookStoreApps.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("api/GetCart")]
+        public IActionResult GetCart(int userId)
+        {
+            try
+            {
+                var result = this.manager.GetCart(userId);
+                if (result != null)
+                {
+                    return this.Ok(new ResponseModel<List<GetCartModel>>() { Status = true, Message = "Books Retrived Successfull!!", Data=result });
+                }
+                else
+                {
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "Not Added Successfully!" });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+            }
+        }
+
     }
 }

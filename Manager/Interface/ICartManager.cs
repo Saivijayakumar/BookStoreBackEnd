@@ -8,5 +8,7 @@ namespace Manager.Interface
     public interface ICartManager
     {
         bool AddBookToCart(CartModel cartData);
+
+        public List<GetCartModel> GetCart(int userId);
     }
 }
