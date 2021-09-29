@@ -1,3 +1,6 @@
+
+----------------------User---------------------------
+
 create Table [User]
 (
   UserId INT PRIMARY KEY IDENTITY(1,1),
@@ -6,6 +9,8 @@ create Table [User]
   Password varchar(50) NOT NULL,
   MobileNumber varchar(50) NOT NULL
 );
+
+-------------------UserAddress---------------------------
 
 create Table [UserAddress]
 (
@@ -18,6 +23,7 @@ create Table [UserAddress]
   FOREIGN KEY (UserId) references  [User](UserId)
 );
 
+------------------------Books--------------------
 
   Create Table Books(
   BookId INT PRIMARY KEY IDENTITY(1,1),
@@ -30,6 +36,8 @@ create Table [UserAddress]
   BookQuantity int DEFAULT 0 
   )
 
+  -----------------------Cart---------------------------
+
 CREATE TABLE Cart
 (
   CartId INT PRIMARY KEY IDENTITY(1,1),
@@ -40,6 +48,9 @@ CREATE TABLE Cart
    FOREIGN KEY (UserId) references [BookStore].[dbo].[User] (UserId),
   FOREIGN KEY (BookId) references  [BookStore].[dbo].[Books] (BookId)
 );
+
+--------------------------MyOrders--------------------
+
 CREATE TABLE MyOrders
 (
   OrderId INT PRIMARY KEY IDENTITY(1,1),
@@ -51,4 +62,15 @@ CREATE TABLE MyOrders
   FOREIGN KEY (UserId) references [BookStore].[dbo].[User] (UserId),
   FOREIGN KEY (BookId) references  [BookStore].[dbo].[Books] (BookId),
   FOREIGN KEY (AddressId) references  [BookStore].[dbo].[UserAddress](AddressId)
+);
+
+------------------------------MyWishList----------------------------
+ 
+CREATE TABLE MyWishList
+(
+  MyWishListId INT PRIMARY KEY IDENTITY(1,1),
+  UserId INT NOT NULL,
+  BookId INT NOT NULL,
+   FOREIGN KEY (UserId) references [BookStore].[dbo].[User] (UserId),
+  FOREIGN KEY (BookId) references  [BookStore].[dbo].[Books] (BookId)
 );

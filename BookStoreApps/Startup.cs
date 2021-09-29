@@ -40,6 +40,9 @@ namespace BookStoreApps
             services.AddTransient<ICartManager, CartManager>();
             services.AddTransient<IMyOrderRepository, MyOrderRepository>();
             services.AddTransient<IMyOrdersManager, MyOrdersManager>();
+            services.AddTransient<IMyWishListRepository, MyWishListRepository>();
+            services.AddTransient<IMyWishListManager, MyWishListManager>();
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1.0", new OpenApiInfo { Title = "BookStoreApp", Version = "1.0" });
