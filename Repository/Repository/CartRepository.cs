@@ -1,4 +1,5 @@
-﻿using Models;
+﻿using Microsoft.Extensions.Configuration;
+using Models;
 using Repository.Interface;
 using System;
 using System.Collections.Generic;
@@ -10,14 +11,20 @@ namespace Repository.Repository
 {
     public class CartRepository : ICartRepository
     {
-        public static string ConnectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=BookStore;Integrated Security=True";
-        SqlConnection connection = new SqlConnection(ConnectionString);
+        public CartRepository(IConfiguration configuration)
+        {
+            this.Configuration = configuration;
+        }
+        public IConfiguration Configuration { get; }
+
+        SqlConnection connection;
         public bool AddBookToCart(CartModel cartData)
         {
             try
             {
                 if (cartData != null)
                 {
+                    connection = new SqlConnection(this.Configuration["ConnectionStrings:DbConnection"]);
                     using (connection)
                     {
                         connection.Open();
@@ -48,6 +55,7 @@ namespace Repository.Repository
         {
             try
             {
+                connection = new SqlConnection(this.Configuration["ConnectionStrings:DbConnection"]);
                 using (connection)
                 {
                     connection.Open();

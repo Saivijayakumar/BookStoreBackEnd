@@ -105,5 +105,28 @@ namespace BookStoreApps.Controllers
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
+
+
+        [HttpGet]
+        [Route("api/GetBookByBookId")]
+        public IActionResult GetBookByBookId(int bookId)
+        {
+            try
+            {
+                var result = this.manager.GetBookByBookId(bookId);
+                if (result != null)
+                {
+                    return this.Ok(new ResponseModel<BookModel>() { Status = true, Message = "Books Retrived Successfull", Data = result });
+                }
+                else
+                {
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "Books Retrived Unsuccessfull" });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+            }
+        }
     }
 }

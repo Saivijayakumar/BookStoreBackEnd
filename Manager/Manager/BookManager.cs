@@ -63,6 +63,18 @@ namespace Manager.Manager
             }
 
         }
+        public BookModel GetBookByBookId(int bookId)
+        {
+            try
+            {
+                return this.repository.GetBookByBookId(bookId);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
 
     }
 }

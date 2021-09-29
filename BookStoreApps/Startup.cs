@@ -21,7 +21,6 @@ namespace BookStoreApps
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
-            ConnectionString = Configuration["ConnectionStrings:DataSource"];
         }
 
         public string ConnectionString { get; private set; }

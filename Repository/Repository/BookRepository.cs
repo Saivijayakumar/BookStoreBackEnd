@@ -15,15 +15,14 @@ namespace Repository.Repository
 {
     public class BookRepository : IBookRepository
     {
-        public static string ConnectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=BookStore;Integrated Security=True";
-        SqlConnection connection = new SqlConnection(ConnectionString);
-        
-        private readonly IConfiguration configuration;
 
         public BookRepository(IConfiguration configuration)
         {
-            this.configuration = configuration;
+            this.Configuration = configuration;
         }
+        public IConfiguration Configuration { get; }
+
+        SqlConnection connection;
 
         public bool AddBook(AddBookModel bookData)
         {
@@ -33,11 +32,10 @@ namespace Repository.Repository
                 {
                     BookModel bookModel = new BookModel();
                     var bookImage = AddImage(bookData.BookImage);
-                    using (SqlConnection connection = new SqlConnection(ConnectionString))
+                    connection = new SqlConnection(this.Configuration["ConnectionStrings:DbConnection"]);
+                    using (connection)
                     {
-                        using (connection)
-                        {
-                            connection.Open();
+                        connection.Open();
                             SqlCommand cmd = new SqlCommand("[dbo].[InsertBookData]", connection);
                             cmd.CommandType = CommandType.StoredProcedure;
                             cmd.Parameters.AddWithValue("@Title", bookData.Title);
@@ -55,7 +53,7 @@ namespace Repository.Repository
                             return false;
                         }
                     }
-                }
+                
                 return false;
             }
             catch (ArgumentNullException ex)
@@ -76,11 +74,10 @@ namespace Repository.Repository
                 {
                     BookModel bookModel = new BookModel();
                     var bookImage = AddImage(bookData.BookImage);
-                    using (SqlConnection connection = new SqlConnection(ConnectionString))
+                    connection = new SqlConnection(this.Configuration["ConnectionStrings:DbConnection"]);
+                    using (connection)
                     {
-                        using (connection)
-                        {
-                            connection.Open();
+                        connection.Open();
                             SqlCommand cmd = new SqlCommand("[dbo].[UpdateBookData]", connection);
                             cmd.CommandType = CommandType.StoredProcedure;
                             cmd.Parameters.AddWithValue("@BookId", bookData.BookId);
@@ -114,7 +111,7 @@ namespace Repository.Repository
                             return true;
                         }
                     }
-                }
+                
                 return false;
             }
             catch (ArgumentNullException ex)
@@ -130,32 +127,36 @@ namespace Repository.Repository
         {
             try
             {
-                connection.Open();
-                SqlCommand cmd = new SqlCommand("GetAllBooks", connection)
+                connection = new SqlConnection(this.Configuration["ConnectionStrings:DbConnection"]);
+                using (connection)
                 {
-                    CommandType = CommandType.StoredProcedure
-                };
-                SqlDataReader sqlDataReader = cmd.ExecuteReader();
+                    connection.Open();
+                    SqlCommand cmd = new SqlCommand("GetAllBooks", connection)
+                    {
+                        CommandType = CommandType.StoredProcedure
+                    };
+                    SqlDataReader sqlDataReader = cmd.ExecuteReader();
 
-                List<BookModel> bookList = new List<BookModel>();
-                while (sqlDataReader.Read())
-                {
-                    BookModel bookModel = new BookModel();
-                    bookModel.BookId = Convert.ToInt32(sqlDataReader["BookId"]);
-                    bookModel.Title = sqlDataReader["Title"].ToString();
-                    bookModel.AuthorName = sqlDataReader["AuthorName"].ToString();
-                    bookModel.Price = Convert.ToInt32(sqlDataReader["Price"]);
-                    bookModel.Rating = Convert.ToInt32(sqlDataReader["Rating"]);
-                    bookModel.BookDetail = sqlDataReader["BookDetail"].ToString();
-                    bookModel.BookImage = sqlDataReader["BookImage"].ToString();
-                    bookModel.BookQuantity = Convert.ToInt32(sqlDataReader["BookQuantity"]);
-                    bookList.Add(bookModel);
+                    List<BookModel> bookList = new List<BookModel>();
+                    while (sqlDataReader.Read())
+                    {
+                        BookModel bookModel = new BookModel();
+                        bookModel.BookId = Convert.ToInt32(sqlDataReader["BookId"]);
+                        bookModel.Title = sqlDataReader["Title"].ToString();
+                        bookModel.AuthorName = sqlDataReader["AuthorName"].ToString();
+                        bookModel.Price = Convert.ToInt32(sqlDataReader["Price"]);
+                        bookModel.Rating = Convert.ToInt32(sqlDataReader["Rating"]);
+                        bookModel.BookDetail = sqlDataReader["BookDetail"].ToString();
+                        bookModel.BookImage = sqlDataReader["BookImage"].ToString();
+                        bookModel.BookQuantity = Convert.ToInt32(sqlDataReader["BookQuantity"]);
+                        bookList.Add(bookModel);
+                    }
+                    if (sqlDataReader.HasRows == false)
+                    {
+                        throw new Exception("The book database is empty");
+                    }
+                    return bookList;
                 }
-                if (sqlDataReader.HasRows == false)
-                {
-                    throw new Exception("The book database is empty");
-                }
-                return bookList;
             }
             catch (ArgumentNullException ex)
             {
@@ -172,6 +173,9 @@ namespace Repository.Repository
         {
             try
             {
+                connection = new SqlConnection(this.Configuration["ConnectionStrings:DbConnection"]);
+                using (connection)
+                {
                     connection.Open();
                     SqlCommand cmd = new SqlCommand("GetPriceSortBooks", connection)
                     {
@@ -199,6 +203,7 @@ namespace Repository.Repository
                         throw new Exception("Database does not Have Books");
                     }
                     return bookList;
+                }
             }
             catch (ArgumentNullException ex)
             {
@@ -214,7 +219,7 @@ namespace Repository.Repository
         {
             try
             {
-                CloudinaryDotNet.Account account = new CloudinaryDotNet.Account(configuration["CloudinaryAccount:CloudName"], configuration["CloudinaryAccount:ApiKey"], configuration["CloudinaryAccount:ApiSecret"]);
+                CloudinaryDotNet.Account account = new CloudinaryDotNet.Account(Configuration["CloudinaryAccount:CloudName"], Configuration["CloudinaryAccount:ApiKey"], Configuration["CloudinaryAccount:ApiSecret"]);
                     Cloudinary cloudinary = new Cloudinary(account);
                     ImageUploadParams uploadParams = new ImageUploadParams()
                     {
@@ -229,5 +234,45 @@ namespace Repository.Repository
                 throw new Exception(ex.Message);
             }
         }
+
+        public BookModel GetBookByBookId(int bookId)
+        {
+            try
+            {
+                connection = new SqlConnection(this.Configuration["ConnectionStrings:DbConnection"]);
+                using (connection)
+                {
+                    connection.Open();
+                    SqlCommand cmd = new SqlCommand("[dbo].[GetBook]", connection)
+                    {
+                        CommandType = CommandType.StoredProcedure
+                    };
+                    cmd.Parameters.AddWithValue("@BookId", bookId);
+                    SqlDataReader sqlDataReader = cmd.ExecuteReader();
+                    BookModel bookModel = new BookModel();
+                    while (sqlDataReader.Read())
+                    {
+                        bookModel.BookId = Convert.ToInt32(sqlDataReader["BookId"]);
+                        bookModel.Title = sqlDataReader["Title"].ToString();
+                        bookModel.AuthorName = sqlDataReader["AuthorName"].ToString();
+                        bookModel.Price = Convert.ToInt32(sqlDataReader["Price"]);
+                        bookModel.Rating = Convert.ToInt32(sqlDataReader["Rating"]);
+                        bookModel.BookDetail = sqlDataReader["BookDetail"].ToString();
+                        bookModel.BookImage = sqlDataReader["BookImage"].ToString();
+                        bookModel.BookQuantity = Convert.ToInt32(sqlDataReader["BookQuantity"]);
+                    }
+                    return bookModel;
+                }
+            }
+            catch (ArgumentNullException ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+
     }
 }
