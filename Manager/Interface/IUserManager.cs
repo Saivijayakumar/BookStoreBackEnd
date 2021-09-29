@@ -15,5 +15,7 @@ namespace Manager.Interface
         UserAddress AddAddress(UserAddress userAddress);
 
         public List<UserAddress> GetAllUserAddress(int userId);
+        UserAddress UpdateAddress(UserAddress updateData);
+        bool EditPersonalDetails(RegisterModel userData);
     }
 }

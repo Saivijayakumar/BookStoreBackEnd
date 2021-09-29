@@ -90,5 +90,29 @@ namespace Manager.Manager
             }
 
         }
+
+        public UserAddress UpdateAddress(UserAddress updateData)
+        {
+            try
+            {
+                return this.repository.UpdateAddress(updateData);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public bool EditPersonalDetails(RegisterModel userData)
+        {
+            try
+            {
+                return this.repository.EditPersonalDetails(userData);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

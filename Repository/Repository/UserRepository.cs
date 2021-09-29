@@ -334,5 +334,80 @@ namespace Repository.Repository
                 connection.Close();
             }
         }
+
+        public UserAddress UpdateAddress(UserAddress updateData)
+        {
+            try
+            {
+                if (updateData != null)
+                {
+                    using (SqlConnection connection = new SqlConnection(ConnectionString))
+                    {
+                        using (connection)
+                        {
+                            connection.Open();
+                            SqlCommand cmd = new SqlCommand("UpdateAddress", connection);
+                            cmd.CommandType = CommandType.StoredProcedure;
+                            cmd.Parameters.AddWithValue("@AddressId", updateData.AddressId);
+                            cmd.Parameters.AddWithValue("@Address", updateData.Address);
+                            cmd.Parameters.AddWithValue("@Type", updateData.Type);
+                            cmd.Parameters.AddWithValue("@City", updateData.City);
+                            cmd.Parameters.AddWithValue("@State", updateData.State);
+                            int result = cmd.ExecuteNonQuery();
+                            if (result != 0)
+                            {
+                                return updateData;
+                            }
+                            return null;
+                        }
+                    }
+                }
+                return null;
+            }
+            catch (ArgumentNullException ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public bool EditPersonalDetails(RegisterModel userData)
+        {
+            try
+            {
+                if (userData != null)
+                {
+                    using (SqlConnection connection = new SqlConnection(ConnectionString))
+                    {
+                        using (connection)
+                        {
+                            connection.Open();
+                            SqlCommand cmd = new SqlCommand("[dbo].[EditPersonalDetails]", connection);
+                            cmd.CommandType = CommandType.StoredProcedure;
+                            cmd.Parameters.AddWithValue("@UserId", userData.UserId);
+                            cmd.Parameters.AddWithValue("@FullName", userData.FullName);
+                            cmd.Parameters.AddWithValue("@EmailId", userData.EmailId);
+                            cmd.Parameters.AddWithValue("@Password", EncryptPassWord(userData.Password));
+                            cmd.Parameters.AddWithValue("@MobileNumber", userData.MobileNumber);
+                            SqlDataReader sqlDataReader = cmd.ExecuteReader();
+                            RegisterModel registerModel = new RegisterModel();
+                            if (sqlDataReader.HasRows == false)
+                            {
+                                throw new Exception("UserId does not exist");
+                            }
+                            return true;
+                        }
+                    }
+                }
+                return false;
+            }
+            catch (ArgumentNullException ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
     }
 }

@@ -107,7 +107,7 @@ namespace BookStoreApp.Controllers
         }
 
         [HttpPost]
-        [Route("api/Address")]
+        [Route("api/AddAddress")]
         public IActionResult AddAddress([FromBody] UserAddress userAddress)
         {
             try
@@ -129,7 +129,7 @@ namespace BookStoreApp.Controllers
         }
 
         [HttpGet]
-        [Route("api/Address")]
+        [Route("api/GetAddress")]
         public IActionResult GetAllUserAddress(int userId)
         {
             try
@@ -150,6 +150,47 @@ namespace BookStoreApp.Controllers
             }
         }
 
-
+        [HttpPut]
+        [Route("api/EditAddress")]
+        public IActionResult UpdateAddress([FromBody] UserAddress updateData)
+        {
+            try
+            {
+                var result = this.manager.UpdateAddress(updateData);
+                if (result != null)
+                {
+                    return this.Ok(new ResponseModel<UserAddress>() { Status = true, Message = "Update Address Successfull!", Data = result });
+                }
+                else
+                {
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "Update Address Unsuccessfull!" });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+            }
+        }
+        [HttpPut]
+        [Route("api/EditPersonalDetails")]
+        public IActionResult EditPersonalDetails([FromBody] RegisterModel userData)
+        {
+            try
+            {
+                var result = this.manager.EditPersonalDetails(userData);
+                if (result == true)
+                {
+                    return this.Ok(new ResponseModel<RegisterModel>() { Status = true, Message = "Update Personal Details Successfull!" });
+                }
+                else
+                {
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "Update Personal Details Unsuccessfull!" });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+            }
+        }
     }
 }

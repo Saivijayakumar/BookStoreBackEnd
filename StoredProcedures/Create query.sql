@@ -29,3 +29,15 @@ create Table [UserAddress]
   BookImage varchar(max) NOT NULL,
   BookQuantity int DEFAULT 0 
   )
+
+CREATE TABLE Cart
+(
+  CartId INT PRIMARY KEY IDENTITY(1,1),
+  UserId INT NOT NULL,
+  BookId INT NOT NULL,
+  BookCount INT NOT NULL,
+  TotalCost INT,
+   FOREIGN KEY (UserId) references [BookStore].[dbo].[User] (UserId),
+  FOREIGN KEY (BookId) references  [BookStore].[dbo].[Books] (BookId)
+);
+
