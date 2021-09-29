@@ -1,4 +1,5 @@
 ﻿using Manager.Interface;
+using Microsoft.AspNetCore.Http;
 using Models;
 using Repository.Interface;
 using System;
@@ -15,7 +16,7 @@ namespace Manager.Manager
         {
             this.repository = repository;
         }
-        public BookModel AddBook(BookModel bookData)
+        public bool AddBook(AddBookModel bookData)
         {
             try
             {
@@ -27,7 +28,7 @@ namespace Manager.Manager
             }
         }
 
-        public BookModel UpdateBook(BookModel bookData)
+        public bool UpdateBook(AddBookModel bookData)
         {
             try
             {

@@ -1,4 +1,9 @@
-﻿using Models;
+﻿using CloudinaryDotNet;
+using CloudinaryDotNet.Actions;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
+using Microsoft.VisualStudio.Services.Account;
+using Models;
 using Repository.Interface;
 using System;
 using System.Collections.Generic;
@@ -12,13 +17,22 @@ namespace Repository.Repository
     {
         public static string ConnectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=BookStore;Integrated Security=True";
         SqlConnection connection = new SqlConnection(ConnectionString);
-        public BookModel AddBook(BookModel bookData)
+        
+        private readonly IConfiguration configuration;
+
+        public BookRepository(IConfiguration configuration)
+        {
+            this.configuration = configuration;
+        }
+
+        public bool AddBook(AddBookModel bookData)
         {
             try
             {
                 if (bookData != null)
                 {
                     BookModel bookModel = new BookModel();
+                    var bookImage = AddImage(bookData.BookImage);
                     using (SqlConnection connection = new SqlConnection(ConnectionString))
                     {
                         using (connection)
@@ -31,18 +45,18 @@ namespace Repository.Repository
                             cmd.Parameters.AddWithValue("@Price", bookData.Price);
                             cmd.Parameters.AddWithValue("@Rating", bookData.Rating);
                             cmd.Parameters.AddWithValue("@BookDetail", bookData.BookDetail);
-                            cmd.Parameters.AddWithValue("@BookImage", bookData.BookImage);
+                            cmd.Parameters.AddWithValue("@BookImage", bookImage);
                             cmd.Parameters.AddWithValue("@BookQuantity", bookData.BookQuantity);
                             int result = cmd.ExecuteNonQuery();
                             if (result != 0)
                             {
-                                return bookData;
+                                return true;
                             }
-                            return null;
+                            return false;
                         }
                     }
                 }
-                return null;
+                return false;
             }
             catch (ArgumentNullException ex)
             {
@@ -54,13 +68,14 @@ namespace Repository.Repository
             }
         }
 
-        public BookModel UpdateBook(BookModel bookData)
+        public bool UpdateBook(AddBookModel bookData)
         {
             try
             {
                 if (bookData != null)
                 {
                     BookModel bookModel = new BookModel();
+                    var bookImage = AddImage(bookData.BookImage);
                     using (SqlConnection connection = new SqlConnection(ConnectionString))
                     {
                         using (connection)
@@ -74,7 +89,7 @@ namespace Repository.Repository
                             cmd.Parameters.AddWithValue("@Price", bookData.Price);
                             cmd.Parameters.AddWithValue("@Rating", bookData.Rating);
                             cmd.Parameters.AddWithValue("@BookDetail", bookData.BookDetail);
-                            cmd.Parameters.AddWithValue("@BookImage", bookData.BookImage);
+                            cmd.Parameters.AddWithValue("@BookImage", bookImage);
                             cmd.Parameters.AddWithValue("@BookQuantity", bookData.BookQuantity);
                             SqlDataReader sqlDataReader = cmd.ExecuteReader();
                             BookModel book = new BookModel();
@@ -96,11 +111,11 @@ namespace Repository.Repository
                             {
                                 throw new Exception("BookId does not exist");
                             }
-                            return book;
+                            return true;
                         }
                     }
                 }
-                return null;
+                return false;
             }
             catch (ArgumentNullException ex)
             {
@@ -192,6 +207,26 @@ namespace Repository.Repository
             finally
             {
                 connection.Close();
+            }
+        }
+
+        private string AddImage(IFormFile image)
+        {
+            try
+            {
+                CloudinaryDotNet.Account account = new CloudinaryDotNet.Account(configuration["CloudinaryAccount:CloudName"], configuration["CloudinaryAccount:ApiKey"], configuration["CloudinaryAccount:ApiSecret"]);
+                    Cloudinary cloudinary = new Cloudinary(account);
+                    ImageUploadParams uploadParams = new ImageUploadParams()
+                    {
+                        File = new FileDescription(image.FileName, image.OpenReadStream())
+                    };
+                    var uploadResult = cloudinary.Upload(uploadParams);
+                     var returnImage = uploadResult.Url.ToString();
+                    return returnImage;
+            }
+            catch (ArgumentNullException ex)
+            {
+                throw new Exception(ex.Message);
             }
         }
     }

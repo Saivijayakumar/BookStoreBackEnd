@@ -1,4 +1,5 @@
-﻿using Models;
+﻿using Microsoft.AspNetCore.Http;
+using Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -7,8 +8,8 @@ namespace Manager.Interface
 {
     public interface IBookManager
     {
-        BookModel AddBook(BookModel bookData);
-        BookModel UpdateBook(BookModel bookData);
+        bool AddBook(AddBookModel bookData);
+        bool UpdateBook(AddBookModel bookData);
         List<BookModel> GetBooks();
         public List<BookModel> GetPriceSortBooks(bool PriceSort);
     }

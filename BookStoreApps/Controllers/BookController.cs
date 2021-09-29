@@ -1,5 +1,6 @@
 ﻿
 using Manager.Interface;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Models;
 using System;
@@ -20,14 +21,14 @@ namespace BookStoreApps.Controllers
 
         [HttpPost]
         [Route("api/AddBook")]
-        public IActionResult AddBook([FromBody] BookModel bookData)
+        public IActionResult AddBook([FromForm] AddBookModel bookData)
         {
             try
             {
                 var result = this.manager.AddBook(bookData);
-                if (result != null)
+                if (result == true)
                 {
-                    return this.Ok(new ResponseModel<BookModel>() { Status = true, Message = "Book Added Successfully!", Data = result });
+                    return this.Ok(new ResponseModel<string>() { Status = true, Message = "Book Added Successfully!"});
                 }
                 else
                 {
@@ -42,14 +43,14 @@ namespace BookStoreApps.Controllers
 
       [HttpPut]
       [Route("api/UpdateBook")]
-        public IActionResult UpdateBook([FromBody] BookModel bookData)
+        public IActionResult UpdateBook([FromForm] AddBookModel bookData)
         {
             try
             {
                 var result = this.manager.UpdateBook(bookData);
-                if (result != null)
+                if (result == true)
                 {
-                    return this.Ok(new ResponseModel<BookModel>() { Status = true, Message = "Book Updated Successfully!", Data = result });
+                    return this.Ok(new ResponseModel<BookModel>() { Status = true, Message = "Book Updated Successfully!"});
                 }
                 else
                 {
