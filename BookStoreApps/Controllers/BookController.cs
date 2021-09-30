@@ -10,6 +10,9 @@ using System.Threading.Tasks;
 
 namespace BookStoreApps.Controllers
 {
+
+    [ApiController]
+    [Route("api/[controller]")]
     public class BookController : ControllerBase
     {
         private readonly IBookManager manager;
@@ -20,7 +23,7 @@ namespace BookStoreApps.Controllers
         }
 
         [HttpPost]
-        [Route("api/AddBook")]
+        [Route("Book")]
         public IActionResult AddBook([FromForm] AddBookModel bookData)
         {
             try
@@ -42,7 +45,7 @@ namespace BookStoreApps.Controllers
         }
 
       [HttpPut]
-      [Route("api/UpdateBook")]
+      [Route("Book")]
         public IActionResult UpdateBook([FromForm] AddBookModel bookData)
         {
             try
@@ -63,7 +66,7 @@ namespace BookStoreApps.Controllers
             }
         }
         [HttpGet]
-        [Route("api/GetBooks")]
+        [Route("Books")]
         public IActionResult GetBooks()
         {
             try
@@ -72,51 +75,6 @@ namespace BookStoreApps.Controllers
                 if (result != null)
                 {
                     return this.Ok(new ResponseModel<List<BookModel>>() { Status = true, Message = "Books Retrived Successfull", Data = result });
-                }
-                else
-                {
-                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "Books Retrived Unsuccessfull" });
-                }
-            }
-            catch (Exception ex)
-            {
-                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
-            }
-        }
-
-        [HttpGet]
-        [Route("api/SortedBooks")]
-        public IActionResult GetPriceSortBooks(bool PriceSort)
-        {
-            try
-            {
-                var result = this.manager.GetPriceSortBooks(PriceSort);
-                if (result != null)
-                {
-                    return this.Ok(new ResponseModel<List<BookModel>>() { Status = true, Message = "Books Retrived Successfully!", Data = result });
-                }
-                else
-                {
-                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "Retrive Books Successfully!" });
-                }
-            }
-            catch (Exception ex)
-            {
-                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
-            }
-        }
-
-
-        [HttpGet]
-        [Route("api/GetBookByBookId")]
-        public IActionResult GetBookByBookId(int bookId)
-        {
-            try
-            {
-                var result = this.manager.GetBookByBookId(bookId);
-                if (result != null)
-                {
-                    return this.Ok(new ResponseModel<BookModel>() { Status = true, Message = "Books Retrived Successfull", Data = result });
                 }
                 else
                 {

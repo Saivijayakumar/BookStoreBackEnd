@@ -11,8 +11,6 @@ namespace Repository.Interface
         bool AddBook(AddBookModel bookData);
         bool UpdateBook(AddBookModel bookData);
         List<BookModel> GetBooks();
-        List<BookModel> GetPriceSortBooks(bool PriceSort);
 
-        BookModel GetBookByBookId(int bookId);
     }
 }

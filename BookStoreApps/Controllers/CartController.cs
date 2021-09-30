@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 
 namespace BookStoreApps.Controllers
 {
+    [ApiController]
+    [Route("api/[controller]")]
     public class CartController : ControllerBase
     {
         private readonly ICartManager manager;
@@ -17,7 +19,7 @@ namespace BookStoreApps.Controllers
             this.manager = manager;
         }
         [HttpPost]
-        [Route("api/AddBookToCart")]
+        [Route("Cart")]
         public IActionResult AddBookToCart([FromBody] CartModel cartData)
         {
             try
@@ -39,7 +41,7 @@ namespace BookStoreApps.Controllers
         }
 
         [HttpGet]
-        [Route("api/GetCart")]
+        [Route("Cart")]
         public IActionResult GetCart(int userId)
         {
             try

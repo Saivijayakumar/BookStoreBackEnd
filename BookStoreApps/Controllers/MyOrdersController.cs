@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 
 namespace BookStoreApps.Controllers
 {
+    [ApiController]
+    [Route("api/[controller]")]
     public class MyOrdersController : ControllerBase
     {
         private readonly IMyOrdersManager manager;
@@ -18,7 +20,7 @@ namespace BookStoreApps.Controllers
         }
 
         [HttpPost]
-        [Route("api/AddOrder")]
+        [Route("Order")]
         public IActionResult AddOrder([FromBody] MyOrdersModel orderData)
         {
             try

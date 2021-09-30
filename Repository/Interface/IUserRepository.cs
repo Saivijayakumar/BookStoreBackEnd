@@ -12,9 +12,7 @@ namespace Repository.Repository
 
         OTPModel ForgotPassword(string email);
         bool ResetPassword(ResetPasswordModel resetData);
-        UserAddress AddAddress(UserAddress userAddress);
-        public List<UserAddress> GetAllUserAddress(int userId);
-        UserAddress UpdateAddress(UserAddress updateData);
+
 
         bool EditPersonalDetails(RegisterModel userData);
     }

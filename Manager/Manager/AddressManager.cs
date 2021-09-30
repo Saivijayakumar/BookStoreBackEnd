@@ -1,5 +1,4 @@
 ﻿using Manager.Interface;
-using Microsoft.AspNetCore.Http;
 using Models;
 using Repository.Interface;
 using System;
@@ -8,19 +7,45 @@ using System.Text;
 
 namespace Manager.Manager
 {
-    public class BookManager :IBookManager
+    public class AddressManager :IAddressManager
     {
-        private readonly IBookRepository repository;
+        private readonly IAddressRepository repository;
 
-        public BookManager(IBookRepository repository)
+        public AddressManager(IAddressRepository repository)
         {
             this.repository = repository;
         }
-        public bool AddBook(AddBookModel bookData)
+        public UserAddress AddAddress(UserAddress userAddress)
         {
             try
             {
-                return this.repository.AddBook(bookData);
+                return this.repository.AddAddress(userAddress);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+
+        }
+
+        public List<UserAddress> GetAllUserAddress(int userId)
+        {
+            try
+            {
+                return this.repository.GetAllUserAddress(userId);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+
+        }
+
+        public UserAddress UpdateAddress(UserAddress updateData)
+        {
+            try
+            {
+                return this.repository.UpdateAddress(updateData);
             }
             catch (Exception ex)
             {
@@ -28,27 +53,5 @@ namespace Manager.Manager
             }
         }
 
-        public bool UpdateBook(AddBookModel bookData)
-        {
-            try
-            {
-                return this.repository.UpdateBook(bookData);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-        }
-        public List<BookModel> GetBooks()
-        {
-            try
-            {
-                return this.repository.GetBooks();
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-        }
     }
 }

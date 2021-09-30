@@ -9,19 +9,19 @@ using System.Threading.Tasks;
 
 namespace BookStoreApp.Controllers
 {
-    
+    [ApiController]
+    [Route("api/[controller]")]
     public class UserController : ControllerBase
     {
-
+     
         private readonly IUserManager manager;
-
         public UserController(IUserManager manager)
         {
             this.manager = manager;
         }
 
         [HttpPost]
-        [Route("api/register)")]
+        [Route("Register")]
         public IActionResult Register([FromBody] RegisterModel userData)
         {
             try
@@ -42,7 +42,7 @@ namespace BookStoreApp.Controllers
             }
         }
         [HttpPost]
-        [Route("api/Login)")]
+        [Route("Login")]
         public IActionResult Login([FromBody] LoginModel loginData)
         {
             try
@@ -64,7 +64,7 @@ namespace BookStoreApp.Controllers
         }
 
         [HttpPost]
-        [Route("api/forgotPassword")]
+        [Route("ForgotPassword")]
         public IActionResult ForgotPassword(string email)
         {
             try
@@ -85,7 +85,7 @@ namespace BookStoreApp.Controllers
             }
         }
         [HttpPut]
-        [Route("api/ResetPassword")]
+        [Route("ResetPassword")]
         public IActionResult ResetPassword([FromBody] ResetPasswordModel resetData)
         {
             try
@@ -106,73 +106,8 @@ namespace BookStoreApp.Controllers
             }
         }
 
-        [HttpPost]
-        [Route("api/AddAddress")]
-        public IActionResult AddAddress([FromBody] UserAddress userAddress)
-        {
-            try
-            {
-                var result = this.manager.AddAddress(userAddress);
-                if (result != null)
-                {
-                    return this.Ok(new ResponseModel<UserAddress>() { Status = true, Message = "Address Added Successfull!", Data = result });
-                }
-                else
-                {
-                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "Adding Address Unsuccessfull!" });
-                }
-            }
-            catch (Exception ex)
-            {
-                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
-            }
-        }
-
-        [HttpGet]
-        [Route("api/GetAddress")]
-        public IActionResult GetAllUserAddress(int userId)
-        {
-            try
-            {
-                var result = this.manager.GetAllUserAddress(userId);
-                if (result != null)
-                {
-                    return this.Ok(new ResponseModel<List<UserAddress>>() { Status = true, Message = "Address Retrived Successfull!", Data = result });
-                }
-                else
-                {
-                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "Address Retrived Unsuccessfull!" });
-                }
-            }
-            catch (Exception ex)
-            {
-                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
-            }
-        }
-
         [HttpPut]
-        [Route("api/EditAddress")]
-        public IActionResult UpdateAddress([FromBody] UserAddress updateData)
-        {
-            try
-            {
-                var result = this.manager.UpdateAddress(updateData);
-                if (result != null)
-                {
-                    return this.Ok(new ResponseModel<UserAddress>() { Status = true, Message = "Update Address Successfull!", Data = result });
-                }
-                else
-                {
-                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "Update Address Unsuccessfull!" });
-                }
-            }
-            catch (Exception ex)
-            {
-                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
-            }
-        }
-        [HttpPut]
-        [Route("api/EditPersonalDetails")]
+        [Route("PersonalDetails")]
         public IActionResult EditPersonalDetails([FromBody] RegisterModel userData)
         {
             try

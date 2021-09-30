@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 
 namespace BookStoreApps.Controllers
 {
+    [ApiController]
+    [Route("api/[controller]")]
     public class MyWishListController : ControllerBase
     {
         private readonly IMyWishListManager manager;
@@ -17,7 +19,7 @@ namespace BookStoreApps.Controllers
             this.manager = manager;
         }
         [HttpPost]
-        [Route("api/Book")]
+        [Route("WishList")]
         public IActionResult AddBookToMyWishList([FromBody] MyWishListModel myWishList)
         {
             try
