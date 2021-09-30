@@ -40,10 +40,13 @@ namespace Repository.Repository
                             cmd.Parameters.AddWithValue("@EmailId", userData.EmailId);
                             cmd.Parameters.AddWithValue("@Password", EncryptPassWord(userData.Password));
                             cmd.Parameters.AddWithValue("@MobileNumber", userData.MobileNumber);
-                            int result = cmd.ExecuteNonQuery();
-                         
-                            if (result != 0)
+                            var returnedSQLParameter = cmd.Parameters.Add("@result", SqlDbType.Int);
+                            returnedSQLParameter.Direction = ParameterDirection.Output;
+                           cmd.ExecuteNonQuery();
+                           var result = (int)returnedSQLParameter.Value;
+                           if (result == 1)
                             {
+                                userData.Password = null;
                                 return userData;
                             }
                             return null;
