@@ -15,5 +15,6 @@ namespace Repository.Repository
 
 
         bool EditPersonalDetails(RegisterModel userData);
+        string GenerateToken(string email);
     }
 }

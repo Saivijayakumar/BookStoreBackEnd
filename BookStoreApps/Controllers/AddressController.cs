@@ -1,4 +1,5 @@
 ﻿using Manager.Interface;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Models;
 using System;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace BookStoreApps.Controllers
 {
-
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class AddressController : ControllerBase

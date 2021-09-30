@@ -48,9 +48,10 @@ namespace BookStoreApp.Controllers
             try
             {
                 var result = this.manager.Login(loginData);
+                string tokenString = this.manager.GenerateToken(loginData.EmailId);
                 if (result != null)
                 {
-                    return this.Ok(new ResponseModel<RegisterModel>() { Status = true, Message = "Login Successfull!", Data = result });
+                    return this.Ok(new { Status = true, Message = "Login Successful!!!", Token = tokenString, UserData = result });
                 }
                 else
                 {

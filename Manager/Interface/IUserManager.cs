@@ -13,5 +13,7 @@ namespace Manager.Interface
         OTPModel ForgotPassword(string email);
         bool ResetPassword(ResetPasswordModel resetData);
         bool EditPersonalDetails(RegisterModel userData);
+
+        string GenerateToken(string email);
     }
 }

@@ -77,5 +77,18 @@ namespace Manager.Manager
                 throw new Exception(ex.Message);
             }
         }
+
+        public string GenerateToken(string email)
+        {
+            try
+            {
+                // Send userdata to Repository and return result true or false
+                return this.repository.GenerateToken(email);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }
