@@ -8,5 +8,6 @@ namespace Repository.Interface
     public interface IMyOrderRepository
     {
         bool AddOrder(MyOrdersModel orderData);
+        List<GetMyOrdersModel> GetMyOrders(int userId);
     }
 }

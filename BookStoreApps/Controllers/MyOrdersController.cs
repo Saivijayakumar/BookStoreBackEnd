@@ -4,8 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace BookStoreApps.Controllers
 {
@@ -31,11 +29,32 @@ namespace BookStoreApps.Controllers
                 var result = this.manager.AddOrder(orderData);
                 if (result)
                 {
-                    return this.Ok(new ResponseModel<string>() { Status = true, Message = "Order Added Successfully!" });
+                    return this.Ok(new { Status = true, Message = "Order Added Successfully" });
                 }
                 else
                 {
-                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "Order Not Added Successfully!" });
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "Order Not Added Successfully" });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+            }
+        }
+        [HttpGet]
+        [Route("Orders")]
+        public IActionResult GetMyOrders(int userId)
+        {
+            try
+            {
+                var result = this.manager.GetMyOrders(userId);
+                if (result != null)
+                {
+                    return this.Ok(new ResponseModel<List<GetMyOrdersModel>>() { Status = true, Message = "Books Retrived Successfull!!", Data = result });
+                }
+                else
+                {
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "Not Added Successfully!" });
                 }
             }
             catch (Exception ex)

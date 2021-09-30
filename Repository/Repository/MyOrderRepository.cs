@@ -55,5 +55,51 @@ namespace Repository.Repository
                 connection.Close();
             }
         }
+        public List<GetMyOrdersModel> GetMyOrders(int userId)
+        {
+            try
+            {
+                connection = new SqlConnection(this.Configuration["ConnectionStrings:DbConnection"]);
+                using (connection)
+                {
+                    connection.Open();
+                    SqlCommand cmd = new SqlCommand("GetMyOrders", connection)
+                    {
+                        CommandType = CommandType.StoredProcedure
+                    };
+                    cmd.Parameters.AddWithValue("UserId", userId);
+                    SqlDataReader sqlDataReader = cmd.ExecuteReader();
+
+                    List<GetMyOrdersModel> orderList = new List<GetMyOrdersModel>();
+
+                    while (sqlDataReader.Read())
+                    {
+                        GetMyOrdersModel getMyOrders = new GetMyOrdersModel();
+                        getMyOrders.UserId = Convert.ToInt32(sqlDataReader["UserId"]);
+                        getMyOrders.OrderId = Convert.ToInt32(sqlDataReader["OrderId"]);
+                        getMyOrders.BookId = Convert.ToInt32(sqlDataReader["BookId"]);
+                        getMyOrders.Title = sqlDataReader["Title"].ToString();
+                        getMyOrders.AuthorName = sqlDataReader["AuthorName"].ToString();
+                        getMyOrders.BookImage = sqlDataReader["BookImage"].ToString();
+                        getMyOrders.OrderDate = sqlDataReader["OrderDate"].ToString();
+                        getMyOrders.TotalCost = Convert.ToInt32(sqlDataReader["TotalCost"]);
+                        orderList.Add(getMyOrders);
+                    }
+                    if (sqlDataReader.HasRows == false)
+                    {
+                        throw new Exception("No Orders in MyOrder");
+                    }
+                    return orderList;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
     }
 }
