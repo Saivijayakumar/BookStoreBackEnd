@@ -102,7 +102,6 @@ namespace Repository.Repository
                         {
                             throw new Exception("Password does not match");
                         }
-                        registerModel.Password = null;
                         return registerModel;
                     }
                 }
