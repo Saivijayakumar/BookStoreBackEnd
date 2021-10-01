@@ -92,7 +92,7 @@ namespace Repository.Repository
                         if (sqlDataReader.Read())
                         {
                             registerModel.UserId = Convert.ToInt32(sqlDataReader["UserId"]);
-                            registerModel.FullName = sqlDataReader["UserName"].ToString();
+                            registerModel.FullName = sqlDataReader["FullName"].ToString();
                             registerModel.EmailId = sqlDataReader["EmailId"].ToString();
                             registerModel.MobileNumber = sqlDataReader["MobileNumber"].ToString();
                             registerModel.Password = sqlDataReader["Password"].ToString();

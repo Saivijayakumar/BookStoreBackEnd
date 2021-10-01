@@ -43,5 +43,27 @@ namespace BookStoreApps.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("api/Book")]
+        public IActionResult GetBookFromMyWishList(int userId)
+        {
+            try
+            {
+                var result = this.manager.GetBookFromMyWishList(userId);
+                if (result != null)
+                {
+                    return this.Ok(new ResponseModel<List<BookModel>>() { Status = true, Message = "MyWishList Books Retrived Successfully!", Data = result });
+                }
+                else
+                {
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "MyWishList Books Retrived UnSuccessfully!" });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+            }
+        }
+
     }
 }

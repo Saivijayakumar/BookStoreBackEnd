@@ -29,5 +29,17 @@ namespace Manager.Manager
             }
 
         }
+        public List<BookModel> GetBookFromMyWishList(int userId)
+        {
+            try
+            {
+                return this.repository.GetBookFromMyWishList(userId);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
     }
 }
