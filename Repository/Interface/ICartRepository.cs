@@ -10,5 +10,7 @@ namespace Repository.Interface
         bool AddBookToCart(CartModel cartData);
 
         List<GetCartModel> GetCart(int userId);
+
+        bool UpdateCountInCart(CartModel cartData);
     }
 }

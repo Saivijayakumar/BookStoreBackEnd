@@ -51,7 +51,7 @@ namespace BookStoreApps.Controllers
                 var result = this.manager.GetCart(userId);
                 if (result != null)
                 {
-                    return this.Ok(new ResponseModel<List<GetCartModel>>() { Status = true, Message = "Books Retrived Successfull!!", Data=result });
+                    return this.Ok(new ResponseModel<List<GetCartModel>>() { Status = true, Message = "Books Retrived Successfull!!", Data = result });
                 }
                 else
                 {
@@ -63,6 +63,28 @@ namespace BookStoreApps.Controllers
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
-       
+
+        [HttpPut]
+        [Route("Cart")]
+        public IActionResult UpdateCountInCart(CartModel cartData)
+        {
+            try
+            {
+                var result = this.manager.UpdateCountInCart(cartData);
+                if (result == true)
+                {
+                    return this.Ok(new ResponseModel<string>() { Status = true, Message = "Book Count Decreased!!" });
+                }
+                else
+                {
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "Can't be Decreased!" });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+            }
         }
     }
+
+}

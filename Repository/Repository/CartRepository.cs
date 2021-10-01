@@ -100,5 +100,39 @@ namespace Repository.Repository
                 connection.Close();
             }
         }
+        public bool UpdateCountInCart(CartModel cartData)
+        {
+            try
+            {
+                if (cartData != null)
+                {
+                    connection = new SqlConnection(this.Configuration["ConnectionStrings:DbConnection"]);
+                    using (connection)
+                    {
+                        connection.Open();
+                        SqlCommand cmd = new SqlCommand("[dbo].[DecreaseCount]", connection);
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@CartId", cartData.CartId);
+                        cmd.Parameters.AddWithValue("@BookId", cartData.BookId);
+                        int result = cmd.ExecuteNonQuery();
+                        if (result != 0)
+                        {
+                            return true;
+                        }
+                        return false;
+                    }
+                }
+                return false;
+            }
+            catch (ArgumentNullException ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
     }
+
 }
