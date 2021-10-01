@@ -13,6 +13,7 @@ namespace Models
         public int Rating { get; set; }
         public string BookDetail { get; set; }
         public string BookImage { get; set; }
+        public string BigImage { get; set; }
         public int BookQuantity { get; set; }
     }
 }

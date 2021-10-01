@@ -32,6 +32,7 @@ namespace Repository.Repository
                 {
                     BookModel bookModel = new BookModel();
                     var bookImage = AddImage(bookData.BookImage);
+                    var bigImage = AddImage(bookData.BigImage);
                     connection = new SqlConnection(this.Configuration["ConnectionStrings:DbConnection"]);
                     using (connection)
                     {
@@ -44,7 +45,8 @@ namespace Repository.Repository
                             cmd.Parameters.AddWithValue("@Rating", bookData.Rating);
                             cmd.Parameters.AddWithValue("@BookDetail", bookData.BookDetail);
                             cmd.Parameters.AddWithValue("@BookImage", bookImage);
-                            cmd.Parameters.AddWithValue("@BookQuantity", bookData.BookQuantity);
+                        cmd.Parameters.AddWithValue("@BigImage", bigImage);
+                        cmd.Parameters.AddWithValue("@BookQuantity", bookData.BookQuantity);
                             int result = cmd.ExecuteNonQuery();
                             if (result != 0)
                             {
@@ -148,6 +150,7 @@ namespace Repository.Repository
                         bookModel.Rating = Convert.ToInt32(sqlDataReader["Rating"]);
                         bookModel.BookDetail = sqlDataReader["BookDetail"].ToString();
                         bookModel.BookImage = sqlDataReader["BookImage"].ToString();
+                        bookModel.BigImage = sqlDataReader["BigImage"].ToString();
                         bookModel.BookQuantity = Convert.ToInt32(sqlDataReader["BookQuantity"]);
                         bookList.Add(bookModel);
                     }

@@ -10,5 +10,6 @@ namespace Manager.Interface
         bool AddBookToCart(CartModel cartData);
 
         public List<GetCartModel> GetCart(int userId);
+
     }
 }

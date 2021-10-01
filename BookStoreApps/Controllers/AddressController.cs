@@ -42,8 +42,8 @@ namespace BookStoreApps.Controllers
             }
         }
 
-        [HttpGet]
-        [Route("Address")]
+        [HttpPost]
+        [Route("GetAddress")]
         public IActionResult GetAllUserAddress(int userId)
         {
             try

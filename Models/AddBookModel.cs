@@ -14,6 +14,7 @@ namespace Models
         public int Rating { get; set; }
         public string BookDetail { get; set; }
         public IFormFile BookImage { get; set; }
+        public IFormFile BigImage { get; set; }
         public int BookQuantity { get; set; }
     }
 }

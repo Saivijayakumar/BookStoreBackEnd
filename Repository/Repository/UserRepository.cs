@@ -36,7 +36,7 @@ namespace Repository.Repository
                             connection.Open();
                             SqlCommand cmd = new SqlCommand("Registration", connection);
                             cmd.CommandType = CommandType.StoredProcedure;
-                            cmd.Parameters.AddWithValue("@FullName", userData.FullName);
+                            cmd.Parameters.AddWithValue("@UserName", userData.FullName);
                             cmd.Parameters.AddWithValue("@EmailId", userData.EmailId);
                             cmd.Parameters.AddWithValue("@Password", EncryptPassWord(userData.Password));
                             cmd.Parameters.AddWithValue("@MobileNumber", userData.MobileNumber);
@@ -46,7 +46,7 @@ namespace Repository.Repository
                            var result = (int)returnedSQLParameter.Value;
                            if (result == 1)
                             {
-                                userData.Password = null;
+                                //userData.Password = null;
                                 return userData;
                             }
                             return null;
@@ -92,7 +92,7 @@ namespace Repository.Repository
                         if (sqlDataReader.Read())
                         {
                             registerModel.UserId = Convert.ToInt32(sqlDataReader["UserId"]);
-                            registerModel.FullName = sqlDataReader["FullName"].ToString();
+                            registerModel.FullName = sqlDataReader["UserName"].ToString();
                             registerModel.EmailId = sqlDataReader["EmailId"].ToString();
                             registerModel.MobileNumber = sqlDataReader["MobileNumber"].ToString();
                             registerModel.Password = sqlDataReader["Password"].ToString();
