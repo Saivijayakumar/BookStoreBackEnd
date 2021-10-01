@@ -29,7 +29,7 @@ namespace Manager.Manager
             }
 
         }
-        public List<BookModel> GetBookFromMyWishList(int userId)
+        public List<GetWishListModel> GetBookFromMyWishList(int userId)
         {
             try
             {
@@ -39,6 +39,18 @@ namespace Manager.Manager
             {
                 throw new Exception(ex.Message);
             }
+        }
+        public bool RemoveBookFromMyWishList(int myWishListId)
+        {
+            try
+            {
+                return this.repository.RemoveBookFromMyWishList(myWishListId);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+
         }
 
     }
