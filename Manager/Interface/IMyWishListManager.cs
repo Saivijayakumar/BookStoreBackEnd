@@ -8,5 +8,6 @@ namespace Manager.Interface
     public interface IMyWishListManager
     {
         bool AddBookToMyWishList(MyWishListModel myWishList);
+        public List<BookModel> GetBookFromMyWishList(int userId);
     }
 }

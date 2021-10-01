@@ -8,5 +8,6 @@ namespace Repository.Interface
     public interface IMyWishListRepository
     {
         bool AddBookToMyWishList(MyWishListModel myWishList);
+        public List<BookModel> GetBookFromMyWishList(int userId);
     }
 }
