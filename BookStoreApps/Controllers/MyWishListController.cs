@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace BookStoreApps.Controllers
 {
-    [Authorize]
+ 
 
     [ApiController]
     [Route("api/[controller]")]
@@ -52,11 +52,32 @@ namespace BookStoreApps.Controllers
                 var result = this.manager.GetBookFromMyWishList(userId);
                 if (result != null)
                 {
-                    return this.Ok(new ResponseModel<List<BookModel>>() { Status = true, Message = "MyWishList Books Retrived Successfully!", Data = result });
+                    return this.Ok(new ResponseModel<List<GetWishListModel>>() { Status = true, Message = "MyWishList Books Retrived Successfully!", Data = result });
                 }
                 else
                 {
                     return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "MyWishList Books Retrived UnSuccessfully!" });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+            }
+        }
+        [HttpDelete]
+        [Route("api/Book")]
+        public IActionResult RemoveBookFromMyWishList(int myWishListId)
+        {
+            try
+            {
+                var result = this.manager.RemoveBookFromMyWishList(myWishListId);
+                if (result == true)
+                {
+                    return this.Ok(new ResponseModel<string>() { Status = true, Message = "Book Removed From myWishList Successfully!" });
+                }
+                else
+                {
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "Remove Book From myWishList UnSuccessfully!" });
                 }
             }
             catch (Exception ex)

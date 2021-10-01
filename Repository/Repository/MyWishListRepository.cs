@@ -52,7 +52,7 @@ namespace Repository.Repository
                 connection.Close();
             }
         }
-        public List<BookModel> GetBookFromMyWishList(int userId)
+        public List<GetWishListModel> GetBookFromMyWishList(int userId)
         {
             try
             {
@@ -66,11 +66,11 @@ namespace Repository.Repository
                     };
                     cmd.Parameters.AddWithValue("UserId", userId);
                     SqlDataReader sqlDataReader = cmd.ExecuteReader();
-                    List<BookModel> bookList = new List<BookModel>();
+                    List<GetWishListModel> bookList = new List<GetWishListModel>();
 
                     while (sqlDataReader.Read())
                     {
-                        BookModel bookModel = new BookModel();
+                        GetWishListModel bookModel = new GetWishListModel();
                         bookModel.BookId = Convert.ToInt32(sqlDataReader["BookId"]);
                         bookModel.Title = sqlDataReader["Title"].ToString();
                         bookModel.AuthorName = sqlDataReader["AuthorName"].ToString();
@@ -79,6 +79,7 @@ namespace Repository.Repository
                         bookModel.BookDetail = sqlDataReader["BookDetail"].ToString();
                         bookModel.BookImage = sqlDataReader["BookImage"].ToString();
                         bookModel.BookQuantity = Convert.ToInt32(sqlDataReader["BookQuantity"]);
+                        bookModel.MyWishListId = Convert.ToInt32(sqlDataReader["MyWishListId"]);
                         bookList.Add(bookModel);
                     }
                     if (sqlDataReader.HasRows == false)
@@ -97,6 +98,40 @@ namespace Repository.Repository
                 connection.Close();
             }
         }
+        public bool RemoveBookFromMyWishList(int myWishListId)
+        {
+            try
+            {
+                if (myWishListId != 0)
+                {
+                    connection = new SqlConnection(this.Configuration["ConnectionStrings:DbConnection"]);
+                    using (connection)
+                    {
+                        connection.Open();
+                        SqlCommand cmd = new SqlCommand("[dbo].[RemoveBookFromMyWishList]", connection);
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@MyWishListId", myWishListId);
+                        int result = cmd.ExecuteNonQuery();
+                        if (result != 0)
+                        {
+                            return true;
+                        }
+                        return false;
+                    }
+                }
+                return false;
+            }
+            catch (ArgumentNullException ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+
+       
     }
 
 }
