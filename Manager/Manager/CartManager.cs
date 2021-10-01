@@ -50,5 +50,17 @@ namespace Manager.Manager
                 throw new Exception(ex.Message);
             }
         }
+        public bool RemoveBookFromCart(int cartId)
+        {
+            try
+            {
+                return this.repository.RemoveBookFromCart(cartId);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
     }
 }

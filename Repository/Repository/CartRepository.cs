@@ -133,6 +133,38 @@ namespace Repository.Repository
                 connection.Close();
             }
         }
+        public bool RemoveBookFromCart(int cartId)
+        {
+            try
+            {
+                if (cartId != 0)
+                {
+                    connection = new SqlConnection(this.Configuration["ConnectionStrings:DbConnection"]);
+                    using (connection)
+                    {
+                        connection.Open();
+                        SqlCommand cmd = new SqlCommand("[dbo].[RemoveBookFromCart]", connection);
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@CartId", cartId);
+                        int result = cmd.ExecuteNonQuery();
+                        if (result != 0)
+                        {
+                            return true;
+                        }
+                        return false;
+                    }
+                }
+                return false;
+            }
+            catch (ArgumentNullException ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
     }
 
 }

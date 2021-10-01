@@ -12,5 +12,6 @@ namespace Manager.Interface
         public List<GetCartModel> GetCart(int userId);
 
         bool UpdateCountInCart(CartModel cartData);
+        bool RemoveBookFromCart(int cartId);
     }
 }
