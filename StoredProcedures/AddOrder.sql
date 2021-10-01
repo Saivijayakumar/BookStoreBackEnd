@@ -1,4 +1,4 @@
-create PROCEDURE [dbo].[AddOrder]
+Alter PROCEDURE [dbo].[AddOrder]
 	@UserId int,
 	@BookId int,
 	@AddressId int,
@@ -6,6 +6,16 @@ create PROCEDURE [dbo].[AddOrder]
 	@TotalCost int
 	AS
 BEGIN
-insert into MyOrders(UserId, BookId, AddressId,OrderDate,TotalCost) 
+    DECLARE @BookPrice int = 0;
+	DECLARE @BookCount int =1;
+	DECLARE @TotalBookCount int = 1;
+	set @BookPrice= (select Price from Books where BookId = @BookId); 
+	Set @BookCount = (@TotalCost/@BookPrice);
+	Set @TotalBookCount =(select BookQuantity from Books where BookId = @BookId); 
+if( (select count(BookId) from Books where BookId = @BookId and BookQuantity > @BookCount) = 1)
+		Begin
+				insert into MyOrders(UserId, BookId, AddressId,OrderDate,TotalCost) 
 				values(@UserId, @BookId,@AddressId,@OrderDate,@TotalCost);
+				update Books set BookQuantity=@TotalBookCount-@BookCount where BookId = @BookId;
+		End
 END
