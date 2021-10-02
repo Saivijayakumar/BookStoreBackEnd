@@ -26,10 +26,10 @@ namespace BookStoreApps.Controllers
         {
             try
             {
-                var result = this.manager.AddOrder(orderData);
-                if (result)
+                GetMyOrdersModel result = this.manager.AddOrder(orderData);
+                if (result != null)
                 {
-                    return this.Ok(new { Status = true, Message = "Order Added Successfully" });
+                    return this.Ok(new { Status = true, Message = "Order Added Successfully", result.OrderId });
                 }
                 else
                 {

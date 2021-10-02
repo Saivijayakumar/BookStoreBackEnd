@@ -7,7 +7,7 @@ namespace Manager.Interface
 {
     public interface IMyOrdersManager
     {
-        bool AddOrder(MyOrdersModel orderData);
+        GetMyOrdersModel AddOrder(MyOrdersModel orderData);
         List<GetMyOrdersModel> GetMyOrders(int userId);
     }
 }
