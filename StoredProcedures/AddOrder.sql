@@ -1,4 +1,11 @@
-Alter PROCEDURE [dbo].[AddOrder]
+USE [BookStore]
+GO
+/****** Object:  StoredProcedure [dbo].[AddOrder]    Script Date: 02-10-2021 03:09:13 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+ALTER PROCEDURE [dbo].[AddOrder]
 	@UserId int,
 	@BookId int,
 	@AddressId int,
@@ -17,5 +24,6 @@ if( (select count(BookId) from Books where BookId = @BookId and BookQuantity > @
 				insert into MyOrders(UserId, BookId, AddressId,OrderDate,TotalCost) 
 				values(@UserId, @BookId,@AddressId,@OrderDate,@TotalCost);
 				update Books set BookQuantity=@TotalBookCount-@BookCount where BookId = @BookId;
+				select OrderId from MyOrders where BookId=@BookId and UserId = @UserId;
 		End
 END

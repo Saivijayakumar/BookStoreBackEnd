@@ -16,7 +16,7 @@ namespace Manager.Manager
             this.repository = repository;
         }
 
-        public bool AddOrder(MyOrdersModel orderData)
+        public GetMyOrdersModel AddOrder(MyOrdersModel orderData)
         {
             try
             {

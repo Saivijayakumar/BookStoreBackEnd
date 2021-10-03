@@ -19,7 +19,7 @@ namespace Repository.Repository
 
         SqlConnection connection;
 
-        public bool AddOrder(MyOrdersModel orderData)
+        public GetMyOrdersModel AddOrder(MyOrdersModel orderData)
         {
             try
             {
@@ -36,15 +36,21 @@ namespace Repository.Repository
                         cmd.Parameters.AddWithValue("@AddressId", orderData.AddressId);
                         cmd.Parameters.AddWithValue("@OrderDate", orderData.OrderDate);
                         cmd.Parameters.AddWithValue("@TotalCost", orderData.TotalCost);
-                        int result = cmd.ExecuteNonQuery();
-                        if (result != 0)
+                        SqlDataReader sqlDataReader = cmd.ExecuteReader();
+                        GetMyOrdersModel getMyOrders = new GetMyOrdersModel();
+                        if (sqlDataReader.Read())
                         {
-                            return true;
+                            
+                            getMyOrders.OrderId = Convert.ToInt32(sqlDataReader["OrderId"]);
                         }
-                        return false;
+                        if (sqlDataReader.HasRows == false)
+                        {
+                            throw new Exception("Order not placed");
+                        }
+                        return getMyOrders;
                     }
                 }
-                return false;
+                return null;
             }
             catch (ArgumentNullException ex)
             {
