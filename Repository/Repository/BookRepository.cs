@@ -45,8 +45,8 @@ namespace Repository.Repository
                             cmd.Parameters.AddWithValue("@Rating", bookData.Rating);
                             cmd.Parameters.AddWithValue("@BookDetail", bookData.BookDetail);
                             cmd.Parameters.AddWithValue("@BookImage", bookImage);
-                        cmd.Parameters.AddWithValue("@BigImage", bigImage);
-                        cmd.Parameters.AddWithValue("@BookQuantity", bookData.BookQuantity);
+                            cmd.Parameters.AddWithValue("@BigBookImage", bigImage);
+                            cmd.Parameters.AddWithValue("@BookQuantity", bookData.BookQuantity);
                             int result = cmd.ExecuteNonQuery();
                             if (result != 0)
                             {
@@ -90,8 +90,8 @@ namespace Repository.Repository
                             cmd.Parameters.AddWithValue("@Rating", bookData.Rating);
                             cmd.Parameters.AddWithValue("@BookDetail", bookData.BookDetail);
                             cmd.Parameters.AddWithValue("@BookImage", bookImage);
-                            cmd.Parameters.AddWithValue("@BookImage", bigImage);
-                            cmd.Parameters.AddWithValue("@BookQuantity", bookData.BookQuantity);
+                        cmd.Parameters.AddWithValue("@BigBookImage", bigImage);
+                        cmd.Parameters.AddWithValue("@BookQuantity", bookData.BookQuantity);
                             SqlDataReader sqlDataReader = cmd.ExecuteReader();
                             BookModel book = new BookModel();
                             if (sqlDataReader.Read())
